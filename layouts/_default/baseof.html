@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="{{ or site.Language.LanguageCode site.Language.Lang }}"
+    dir="{{ or site.Language.LanguageDirection `ltr` }}"
+    class="min-h-screen"
+    >
+
+<head>
+    {{ partial "head.html" . }}
+</head>
+
+<body class="min-h-screen px-4 container flex flex-col mx-auto bg-tan-100 dark:bg-slate-700 text-slate-800 dark:text-neutral-50">
+    {{ partial "header.html" . }}
+
+    {{ partial "search.html" . }}
+
+    <div class="flex flex-col flex-grow mt-8 max-w-none
+    prose prose-xl prose-amber dark:prose-invert 
+    prose-a:font-normal prose-a:no-underline prose-h1:text-4xl 
+    prose-code:before:content-none prose-code:after:content-none prose-code:font-normal
+    prose-img:mx-auto
+    prose-table:table-auto prose-table:border dark:prose-table:border-slate-600 prose-table:shadow-sm dark:prose-table:shadow-md dark:prose-table:shadow-slate-600
+    prose-table:bg-white dark:prose-table:bg-slate-800
+    prose-thead:bg-stone-200 dark:prose-thead:bg-slate-900 even:prose-tr:bg-stone-50 dark:even:prose-tr:bg-slate-700
+    prose-th:pt-4 prose-th:px-4 prose-td:py-2 prose-td:px-4
+    prose-table:block prose-table:overflow-x-scroll prose-table:max-w-fit prose-table:mx-auto
+    
+    ">
+    {{ block "main" . }}{{ end }}
+    </div>
+
+    {{ partial "footer.html" . }}
+
+    {{ partial "scripts.html" . }}
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+<div class="metadata">
+    {{ partial "date.html" .}}
+    
+    {{ with .Page.Params.Categories }}
+    {{ partial "taxonomy/categories.html" . }}
+    {{ end }}
+    
+    <div class="pt-2">
+    {{ with .Page.Params.Series }}
+    {{ partial "taxonomy/series.html" . }}
+    {{ end }}
+    </div>
+    
+    <div class="pt-2">
+    {{ with .Page.Params.Tags }}
+    {{ partial "taxonomy/tags.html" . }}
+    {{ end }}
+    </div>
+</div>

@@ -1,0 +1,39 @@
+{{ $page := .Page }}
+{{ $gallery := "" }}
+{{ with .Get "name" }}
+    {{ $gallery = .}}
+{{ else }}
+    {{ $gallery = .Ordinal }}
+{{end}}
+{{ $innerStr := trim .Inner "\n\r" }}
+{{ $innerArr := split $innerStr "\n" }}
+<div class="flex flex-wrap gap-4 justify-center items-center">
+{{ range $innerArr }}
+    {{ with . }}
+        {{ $match := findRESubmatch `.*\((.*?)\)$` . }}
+        {{ $x := index $match 0 }}
+        {{ $src := index $x 1 }}
+        
+        {{ $isRemote := strings.HasPrefix $src "http" }}
+        {{ if or $isRemote (not $page.Site.Params.imagekit) }}
+        <a href={{$src}} class="glightbox sm:max-w-72" data-gallery={{$gallery}}>
+            {{ . | $page.RenderString }}
+        </a>
+        {{ else }}
+        {{ $srcThumb := urls.JoinPath $page.Site.Params.imgkitURL "tr:n-thumb" $page.RelPermalink $src }}
+        {{ $srcMobile := urls.JoinPath $page.Site.Params.imgkitURL "tr:n-mobile" $page.RelPermalink $src }}
+        {{ $srcSm := urls.JoinPath $page.Site.Params.imgkitURL "tr:n-sm" $page.RelPermalink $src }}
+        {{ $srcMd := urls.JoinPath $page.Site.Params.imgkitURL "tr:n-md" $page.RelPermalink $src }}
+        {{ $srcLg := urls.JoinPath $page.Site.Params.imgkitURL "tr:n-lg" $page.RelPermalink $src }}
+        {{ $srcXl := urls.JoinPath $page.Site.Params.imgkitURL "tr:n-xl" $page.RelPermalink $src }}
+        {{ $src2xl := urls.JoinPath $page.Site.Params.imgkitURL "tr:n-2xl" $page.RelPermalink $src }}
+        <a href={{$srcMobile}} class="glightbox sm:max-w-72" data-gallery={{$gallery}}
+        data-sizes="100%"
+        data-srcset='{{ $srcMobile }} 640w, {{ $srcSm }} 768w, {{ $srcMd }} 1024w, {{ $srcLg }} 1280w, {{ $srcXl }} 1536w, {{ $src2xl }} 1920w'
+        >
+            <img src='{{$srcThumb}}'>
+        </a>
+        {{ end }}
+    {{ end }}
+{{ end }}
+</div>

@@ -1,0 +1,21 @@
+{{ if eq .Site.Params.search "pagefind" }}
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+</style>
+<script>
+    function initSearch() {
+        new PagefindUI({ element: "#search", resetStyles: false, showSubResults: true });
+        document.getElementById("search-switch").addEventListener("click", function () {
+            document.getElementById("search").classList.toggle("hidden");
+        });
+    }
+    if (document.readyState === "loading") {
+        // Loading hasn't finished yet
+        document.addEventListener("DOMContentLoaded", initSearch);
+    } else {
+        // `DOMContentLoaded` has already fired
+        initSearch();
+    }
+</script>
+{{ end }}

@@ -1,0 +1,29 @@
+{{ $class := .Attributes.class | default ""    }}
+{{ $lang  := .Attributes.lang  | default .Type }}
+{{ $Inner := .Inner }}
+{{ if transform.CanHighlight $lang }}
+    {{/*  Find all the samp blocks, capture them and their contents  */}}
+    {{ $blockmap := dict }}
+    {{ $blocks := findRESubmatch "```samp((\\s|\\S)*?)```" $Inner }}
+    {{ range $blocks }}
+        {{/*  Add all contents and their hashes to dictionary  */}}
+        {{ $content := trim (index . 1) "\n\r" }}
+        {{ $hash := crypto.FNV32a $content | string }}
+        {{ $blockmap = $blockmap | merge (dict $hash $content) }}
+        {{/*  Replace all blocks by hashes  */}}
+        {{ $Inner = replace $Inner (index . 0) $hash }}
+    {{ end }}
+
+    {{/*  Render the code blocks  */}}
+    {{ $rendered := highlight $Inner $lang }}
+
+    {{/*  Remove hashes and add original content back  */}}
+    {{ range $hash, $content := $blockmap }}
+        {{/*  {{ $tmp := highlight $content "text" }}  */}}
+        {{ $tmp := partial "samp.html" (dict "content" $content) }}
+        {{ $rendered = replace $rendered $hash $tmp}}
+    {{ end }}
+<div class="{{ $class }}">{{ $rendered | safeHTML }}</div>
+{{else}}
+<pre><code class="{{ $class }}">{{.Inner}}</code></pre>
+{{end}}

@@ -1,0 +1,27 @@
+{{ define "main" }}
+{{ $paginator := .Paginate (.RegularPagesRecursive.GroupByDate "2006") 10 }}
+
+    {{ range $paginator.PageGroups }}
+    <h3>{{ .Key }}</h3>
+    <div class="list-none m-0 p-0">
+        {{ range .Pages }}
+        <div class="my-4 p-0">
+            <div class="flex">
+                <div><a class="text-2xl" href="{{.Permalink}}">{{ .Title }}</a></div>
+                <div class="ml-auto">{{ time.Format "Jan 02" .Date }}</div>
+            </div>
+            <div class="flex">
+                {{ with .Page.Params.Tags }}
+		        {{ partial "taxonomy/tags.html" . }}
+		        {{ end }}
+            </div>
+        </div>
+        {{ end }}
+    </div>
+    {{ end }}
+
+    <div class="mt-auto pt-10">	
+    {{ template "_internal/pagination.html" . }}	
+    </div>
+{{ end }}
+

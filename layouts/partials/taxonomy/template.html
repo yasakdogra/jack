@@ -1,0 +1,12 @@
+{{- $linkClass := .linkClass -}}
+{{- $linkBase := .linkBase -}}
+
+<div class="flex flex-row flex-wrap">
+  {{- range $index, $el := sort .items -}}
+    <!-- Replace certain special characters with their URL encoded counterparts -->
+    {{- $item := replace . "#" "%23" -}}
+    {{- $item = replace $item "." "%2e" -}}
+    {{- $link := ( printf "%s/%s/" $linkBase ( $item | urlize ) ) | relLangURL -}}
+    <a class="{{ $linkClass }} mr-3 text-gray-800 dark:text-slate-200 rounded-xl bg-slate-200 dark:bg-slate-500 px-2 leading-6 text-base" href="{{ $link }}">{{- . -}}</a>
+  {{- end -}}
+</div>

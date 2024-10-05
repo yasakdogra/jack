@@ -1,0 +1,16 @@
+{{ define "main" }}
+<article>
+    <h1>{{ .Title }}</h1>
+
+    {{ if eq .Type "post" }}
+    {{ partial "metadata.html" . }}
+    {{ end }}
+
+    {{ .Content }}
+
+    {{ if eq .Type "post" }}
+    {{ partial "series.html" . }}
+    {{ end }}
+
+</article>
+{{ end }}

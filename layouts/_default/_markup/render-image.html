@@ -1,0 +1,14 @@
+{{- $isRemote := strings.HasPrefix .Destination "http" -}}
+{{- if or $isRemote (not .Page.Site.Params.imagekit) -}}
+<img src="{{ .Destination }}" class="p-0 m-0" {{ if .Page.Site.Params.mediumZoom }} data-zoomable data-zoom-src="{{ .Destination }}"{{ end }} alt="{{ .Text }}" {{ with .Title }} title="{{ . }}"{{ end }} />
+{{- else -}}
+{{ $srcMobile := urls.JoinPath .Page.Site.Params.imgkitURL "tr:n-mobile" .Page.RelPermalink .Destination }}
+{{ $srcSm := urls.JoinPath .Page.Site.Params.imgkitURL "tr:n-sm" .Page.RelPermalink .Destination }}
+{{ $srcMd := urls.JoinPath .Page.Site.Params.imgkitURL "tr:n-md" .Page.RelPermalink .Destination }}
+{{ $srcLg := urls.JoinPath .Page.Site.Params.imgkitURL "tr:n-lg" .Page.RelPermalink .Destination }}
+{{ $srcXl := urls.JoinPath .Page.Site.Params.imgkitURL "tr:n-xl" .Page.RelPermalink .Destination }}
+{{ $src2xl := urls.JoinPath .Page.Site.Params.imgkitURL "tr:n-2xl" .Page.RelPermalink .Destination }}
+<img src='{{$srcMobile}}'
+srcset='{{ $srcMobile }} 640w, {{ $srcSm }} 768w, {{ $srcMd }} 1024w, {{ $srcLg }} 1280w, {{ $srcXl }} 1536w, {{ $src2xl }} 1920w'
+class="p-0 m-0" {{ if .Page.Site.Params.mediumZoom }} data-zoomable data-zoom-src="{{ $src2xl }}"{{ end }} alt="{{ .Text }}" {{ with .Title }} title="{{ . }}"{{ end }} />
+{{- end -}}

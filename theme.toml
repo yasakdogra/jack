@@ -1,0 +1,7 @@
+name = 'Jack'
+license = 'MIT'
+licenselink = 'https://github.com/yasakdogra/jack/blob/main/LICENSE'
+description = 'Hugo theme using tailwindcss'
+
+# The home page of the theme, where the source can be found
+homepage = 'https://github.com/yasakdogra/jack'
