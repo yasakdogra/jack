@@ -2,7 +2,7 @@
 
     {{ .Content }}
     {{ with .RegularPagesRecursive }}
-        <h2>Latest Posts</h2>
+        <h3>Latest Posts</h3>
         {{ range first 5 site.RegularPages.ByDate.Reverse }}
             <div class="my-6">
                 <a class="text-2xl" href="{{ .Permalink }}">{{ .Title }}</a>
